@@ -5,7 +5,7 @@ function App() {
     <div className='App'>
       <input
         onChange={(e) => {
-          console.log(e.target.value, 'hello there');
+          console.log(e.target.value, 'hello there first thing to check');
         }}
       />
     </div>
