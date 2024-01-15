@@ -1,14 +1,15 @@
 import './App.css';
 
+import { AuthProvider } from './contexts/AuthContext';
+import { SignIn } from './pages/sign-in';
+
 function App() {
   return (
-    <div className='App'>
-      <input
-        onChange={(e) => {
-          console.log(e.target.value, 'hello there first thing to check');
-        }}
-      />
-    </div>
+    <AuthProvider>
+      <div className='App'>
+        <SignIn />
+      </div>
+    </AuthProvider>
   );
 }
 
