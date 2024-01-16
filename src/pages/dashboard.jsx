@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 export const Dashboard = () => {
   const navigate = useNavigate();
   const { currentUser, logOut } = useAuth();
-  const handleLogOut = () => {
-    logOut().then(() => {
+  const handleLogOut = async () => {
+    await logOut().then(() => {
       navigate('/login');
     });
   };
