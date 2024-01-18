@@ -12,6 +12,8 @@ export const Dashboard = () => {
   return (
     <div>
       {currentUser.email}
+      {JSON.stringify(currentUser)}
+      <img src={currentUser.photoURL} alt='icon' />
       <button onClick={handleLogOut}>Sign Out</button>
     </div>
   );

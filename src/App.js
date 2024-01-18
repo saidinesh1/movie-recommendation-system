@@ -10,15 +10,15 @@ import { SignUp } from './pages/sign-up';
 function App() {
   return (
     <div className='App'>
-      <Router>
-        <AuthProvider>
+      <AuthProvider>
+        <Router>
           <Routes>
             <Route exact path='/dashboard' Component={Dashboard} />
             <Route path='/login' Component={LogIn} />
             <Route path='/signup' Component={SignUp} />
           </Routes>
-        </AuthProvider>
-      </Router>
+        </Router>
+      </AuthProvider>
     </div>
   );
 }

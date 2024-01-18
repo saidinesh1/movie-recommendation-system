@@ -1,11 +1,12 @@
+import { auth, provider } from '../firebase/firebase';
 import { useRef, useState } from 'react';
-import { signInWithPopup } from "firebase/auth";
+
+import { signInWithPopup } from 'firebase/auth';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { auth,provider } from '../firebase/firebase';
+
 export const LogIn = () => {
-  
-  const { currentUser, logIn,googleSignIn } = useAuth();
+  const { currentUser, logIn } = useAuth();
   const emailRef = useRef();
   const passwordRef = useRef();
   const [error, setError] = useState();
@@ -23,14 +24,23 @@ export const LogIn = () => {
     }
     setLoading(false);
   };
-  const handleGoogleSignIn = () => {
+
+  const handleGoogleSignIn = async () => {
     try {
-    googleSignIn();
-    } catch (err){
-      console.error(err);
+      setError('');
+      setLoading(true);
+
+      const result = await signInWithPopup(auth, provider);
+      navigate('/dashboard');
+      // You can access the user information from the result
+    } catch {
+      setError('Failed to log in with Google');
+
+      console.log('failed');
     }
+    setLoading(false);
   };
- 
+
   return (
     <section className='bg-gray-50 dark:bg-gray-900'>
       <div className='flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0'>
@@ -114,11 +124,20 @@ export const LogIn = () => {
               >
                 Log in
               </button>
-              <div className="flex items-center justify-center dark:bg-gray-800">
-                <button onClick={handleGoogleSignIn} className="px-4 py-2 border flex gap-2 border-slate-200 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150">
-                  <img className="w-6 h-6" src="https://www.svgrepo.com/show/475656/google-color.svg" loading="lazy" alt="google logo"/>
+              <div className='flex items-center justify-center dark:bg-gray-800'>
+                <button
+                  type='submit'
+                  disabled={loading}
+                  onClick={handleGoogleSignIn}
+                  className='px-4 py-2 border flex gap-2 border-slate-200 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150'
+                >
+                  <img
+                    className='w-6 h-6'
+                    src='https://www.svgrepo.com/show/475656/google-color.svg'
+                    alt='google logo'
+                  />
                   <span>Login with Google</span>
-               </button>
+                </button>
               </div>
               <p className='text-sm font-light text-gray-500 dark:text-gray-400'>
                 Don’t have an account yet?{' '}
