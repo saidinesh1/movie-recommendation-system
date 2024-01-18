@@ -23,9 +23,9 @@ export const LogIn = () => {
     }
     setLoading(false);
   };
-  const handleGoogleSignIn = async () => {
+  const handleGoogleSignIn = () => {
     try {
-    await googleSignIn();
+    googleSignIn();
     } catch (err){
       console.error(err);
     }

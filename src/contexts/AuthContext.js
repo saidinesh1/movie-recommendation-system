@@ -31,8 +31,8 @@ export const AuthProvider = ({ children }) => {
     return signOut(auth);
   };
 
-  const googleSignIn=()=>{
-    return signInWithPopup(auth, provider)
+  const googleSignIn=async ()=>{
+    return await signInWithPopup(auth, provider)
   .then((result) => {
     // This gives you a Google Access Token. You can use it to access the Google API.
     const credential = provider.credentialFromResult(result);
