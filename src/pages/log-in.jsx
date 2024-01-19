@@ -1,9 +1,10 @@
 import { auth, provider } from '../firebase/firebase';
 import { useRef, useState } from 'react';
-
+import { toast } from 'react-toastify';
 import { signInWithPopup } from 'firebase/auth';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+
 
 export const LogIn = () => {
   const { currentUser, logIn } = useAuth();
@@ -17,8 +18,10 @@ export const LogIn = () => {
       setError('');
       setLoading(true);
       await logIn(email, password).then(() => {
+        toast.success("Success login")
         navigate('/dashboard');
       });
+      
     } catch {
       setError('Failed to create an account');
     }
@@ -43,6 +46,7 @@ export const LogIn = () => {
 
   return (
     <section className='bg-gray-50 dark:bg-gray-900'>
+      
       <div className='flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0'>
         <div className='w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700'>
           <div className='p-6 space-y-4 md:space-y-6 sm:p-8'>
