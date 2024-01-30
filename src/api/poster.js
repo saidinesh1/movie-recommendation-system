@@ -1,5 +1,5 @@
 export const posterFetch = async (movieName) => {
-  const url = `https://api.themoviedb.org/3/search/movie?api_key=15d2ea6d0dc1d476efbca3eba2b9bbfb&query=${movieName}`;
+  const url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_POSTER_FETCH_API}&query=${movieName}`;
   const response = await fetch(url);
   return response;
 };
