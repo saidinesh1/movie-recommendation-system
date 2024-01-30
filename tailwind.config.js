@@ -42,6 +42,7 @@ module.exports = {
         'Segoe UI Symbol',
         'Noto Color Emoji',
       ],
+      Rubik: ['Rubik', 'sans-serif'],
       sans: [
         'Inter',
         'ui-sans-serif',

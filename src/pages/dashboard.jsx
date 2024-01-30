@@ -1,3 +1,4 @@
+import { Card } from '../components/Card';
 import Modal from 'react-modal';
 import { Tabs } from '../components/Tab';
 import backgroundImage from '../assets/dashboard-bg.jpg';
@@ -74,10 +75,11 @@ export const Dashboard = () => {
                   posters.map(
                     (poster) =>
                       poster.poster_path && (
-                        <img
-                          src={`https://image.tmdb.org/t/p/w500${poster.poster_path}`}
-                          alt='icon'
-                          className='w-[100px] h-[100px]'
+                        <Card
+                          imageUrl={`https://image.tmdb.org/t/p/w500${poster.poster_path}`}
+                          movieName={poster.title}
+                          movieYear={poster.release_date.substring(0, 4)}
+                          overview={poster.overview}
                         />
                       )
                   )}
