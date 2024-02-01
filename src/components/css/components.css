@@ -116,8 +116,8 @@ body {
 .card__description {
   padding: 0 2em 2em;
   margin: 0;
-  color: #d7bdca;
-  font-family: 'MockFlowFont';
+  color: #7d3cff;
+  font-weight: 600;
   overflow-y: scroll;
   height: 300px;
 }

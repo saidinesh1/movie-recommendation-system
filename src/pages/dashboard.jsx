@@ -16,6 +16,7 @@ export const Dashboard = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedTab, setSelectedTab] = useState(tabOptions[2]);
   const [posters, setPosters] = useState();
+  console.log(currentUser, 'Current user');
   const handlePosterFetch = async () => {
     try {
       const response = await posterFetch(input);
@@ -55,11 +56,12 @@ export const Dashboard = () => {
         tabOptions={tabOptions}
         selectedTab={selectedTab}
         onSelect={onSelect}
+        profile={{ pic: currentUser.photoURL, name: currentUser.displayName }}
         children={
           selectedTab.label === 'Search' ? (
             <div className='flex flex-col gap-[20px]'>
               <input
-                className='border border-2'
+                className='border border-2 w-[300px]'
                 type='text'
                 value={input}
                 onChange={(e) => {

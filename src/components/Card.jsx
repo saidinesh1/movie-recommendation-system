@@ -17,7 +17,7 @@ export const Card = ({ imageUrl, movieName, movieYear, overview }) => {
               <span class='card__status'>{movieYear}</span>
             </div>
           </div>
-          <p class='card__description no-scrollbar'>{overview}</p>
+          <p class='card__description no-scrollbar font-Rubik'>{overview}</p>
         </div>
       </div>
     </div>
