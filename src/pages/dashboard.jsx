@@ -66,7 +66,9 @@ export const Dashboard = () => {
                   setInput(e.target.value);
                 }}
               />
-
+              <button onClick={handlePosterFetch} className='text-white'>
+                Search
+              </button>
               <div className='grid grid-cols-3 gap-y-[10px] gap-x-[10px] w-[90%]'>
                 {posters &&
                   posters.length > 0 &&

@@ -5,16 +5,16 @@ export const Tabs = ({ tabOptions, selectedTab, onSelect, children }) => {
         <ul className='flex flex-col -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400'>
           {tabOptions.map((option) => (
             <li
-              className='me-2 flex flex-start w-max'
+              className='me-2 flex flex-start w-max bg-[#7d3cff] rounded-lg'
               onClick={() => onSelect(option)}
             >
               <button
                 key={option.label}
                 aria-current='page'
-                className={`inline-flex items-center justify-center p-4 rounded-t-lg group text-[24px] ${
+                className={`inline-flex items-center justify-center p-4 rounded-t-lg group text-[24px] w-[200px] h-[120px] ${
                   selectedTab === option
                     ? 'text-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500 group'
-                    : 'text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300'
+                    : 'text-white group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300'
                 }`}
               >
                 {option.icon ? option.icon : null}
