@@ -47,17 +47,19 @@ body {
   transition: 0.6s ease-in-out;
 }
 
-.card:hover .card__overlay {
+.card__overlay:hover {
   transform: translateY(0);
-  overflow-y: scroll;
 }
-
+.card__overlay:hover .card__header {
+  transform: translateY(0);
+}
 .card__header {
   position: relative;
   display: flex;
   align-items: center;
   gap: 2em;
   padding: 2em;
+  height: 100px;
   border-radius: calc(var(--curve) * 1px) 0 0 0;
   background-color: var(--surface-color);
   transform: translateY(-100%);
@@ -78,9 +80,9 @@ body {
   d: path('M 40 80 c 22 0 40 -22 40 -40 v 40 Z');
 }
 
-.card:hover .card__header {
+/* .card:hover .card__header {
   transform: translateY(0);
-}
+} */
 
 .card__thumb {
   flex-shrink: 0;
@@ -116,7 +118,6 @@ body {
   margin: 0;
   color: #d7bdca;
   font-family: 'MockFlowFont';
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
+  overflow-y: scroll;
+  height: 300px;
 }

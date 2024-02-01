@@ -50,14 +50,14 @@ export const Dashboard = () => {
   };
 
   return (
-    <div>
+    <div className='p-[10px]'>
       <Tabs
         tabOptions={tabOptions}
         selectedTab={selectedTab}
         onSelect={onSelect}
         children={
           selectedTab.label === 'Search' ? (
-            <div className='flex flex-col'>
+            <div className='flex flex-col gap-[20px]'>
               <input
                 className='border border-2'
                 type='text'
@@ -66,10 +66,8 @@ export const Dashboard = () => {
                   setInput(e.target.value);
                 }}
               />
-              <button className='border border-2' onClick={handlePosterFetch}>
-                Search
-              </button>
-              <div className='flex flex-row gap-x-[10px]'>
+
+              <div className='grid grid-cols-3 gap-y-[10px] gap-x-[10px] w-[90%]'>
                 {posters &&
                   posters.length > 0 &&
                   posters.map(
