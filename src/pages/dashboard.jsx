@@ -3,9 +3,11 @@ import Modal from 'react-modal';
 import { Tabs } from '../components/Tab';
 import backgroundImage from '../assets/dashboard-bg.jpg';
 import bgImage from '../assets/dashboard-bg.jpg';
+import { latestMovieFetch } from '../api/latestMovies';
 import { posterFetch } from '../api/poster';
 import { tabOptions } from '../constants/dashboard.constant';
 import { useAuth } from '../contexts/AuthContext';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
@@ -16,7 +18,33 @@ export const Dashboard = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedTab, setSelectedTab] = useState(tabOptions[2]);
   const [posters, setPosters] = useState();
-  console.log(currentUser, 'Current user');
+  const [trending, setTrending] = useState();
+
+  const handleLatestMovieFetch = async () => {
+    try {
+      const response = await latestMovieFetch();
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch movie data');
+      }
+
+      const data = await response.json();
+
+      if (data.results && data.results.length > 0) {
+        setTrending(data.results);
+      } else {
+        throw new Error('No results found');
+      }
+    } catch (error) {
+      console.error('Error fetching movie poster:', error.message);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedTab.label === 'Top trending') {
+      handleLatestMovieFetch();
+    }
+  });
   const handlePosterFetch = async () => {
     try {
       const response = await posterFetch(input);
@@ -40,7 +68,7 @@ export const Dashboard = () => {
       console.error('Error fetching movie poster:', error.message);
     }
   };
-  console.log(posters, 'posters');
+
   const handleLogOut = async () => {
     await logOut().then(() => {
       navigate('/login');
@@ -56,7 +84,14 @@ export const Dashboard = () => {
         tabOptions={tabOptions}
         selectedTab={selectedTab}
         onSelect={onSelect}
-        profile={{ pic: currentUser.photoURL, name: currentUser.displayName }}
+        profile={{
+          pic:
+            currentUser && currentUser.photoURL ? currentUser.photoURL : null,
+          name:
+            currentUser && currentUser.displayName
+              ? currentUser.displayName
+              : 'K',
+        }}
         children={
           selectedTab.label === 'Search' ? (
             <div className='flex flex-col gap-[20px]'>
@@ -68,10 +103,14 @@ export const Dashboard = () => {
                   setInput(e.target.value);
                 }}
               />
-              <button onClick={handlePosterFetch} className='text-white'>
+              <button
+                onClick={handlePosterFetch}
+                className='text-white'
+                type='submit'
+              >
                 Search
               </button>
-              <div className='grid grid-cols-3 gap-y-[10px] gap-x-[10px] w-[90%]'>
+              <div className='grid grid-cols-3 gap-y-[20px] gap-x-[20px] w-[90%]'>
                 {posters &&
                   posters.length > 0 &&
                   posters.map(
@@ -87,8 +126,26 @@ export const Dashboard = () => {
                   )}
               </div>
             </div>
+          ) : selectedTab.label === 'Top trending' ? (
+            <>
+              <div className='grid grid-cols-3 gap-[30px] w-fit'>
+                {trending &&
+                  trending.length > 0 &&
+                  trending.map(
+                    (trendingMovie) =>
+                      trendingMovie.poster_path && (
+                        <Card
+                          imageUrl={`https://image.tmdb.org/t/p/w500${trendingMovie.poster_path}`}
+                          movieName={trendingMovie.title}
+                          movieYear={trendingMovie.release_date.substring(0, 4)}
+                          overview={trendingMovie.overview}
+                        />
+                      )
+                  )}
+              </div>
+            </>
           ) : (
-            <></>
+            <div></div>
           )
         }
       />
