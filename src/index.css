@@ -18,6 +18,8 @@ code {
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 11;
+  opacity: 0.95;
 }
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300&family=Single+Day&display=swap');
 @tailwind base;

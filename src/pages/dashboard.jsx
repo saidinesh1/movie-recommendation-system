@@ -1,16 +1,19 @@
 import { Card } from '../components/Card';
 import Modal from 'react-modal';
 import { Tabs } from '../components/Tab';
+import { VideoPlayer } from '../components/MoviePlayer';
 import backgroundImage from '../assets/dashboard-bg.jpg';
 import bgImage from '../assets/dashboard-bg.jpg';
 import { latestMovieFetch } from '../api/latestMovies';
 import { posterFetch } from '../api/poster';
 import { tabOptions } from '../constants/dashboard.constant';
+import { trailerFetch } from '../api/trailer';
 import { useAuth } from '../contexts/AuthContext';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
+Modal.setAppElement('#root');
 export const Dashboard = () => {
   const navigate = useNavigate();
   const [input, setInput] = useState();
@@ -19,7 +22,8 @@ export const Dashboard = () => {
   const [selectedTab, setSelectedTab] = useState(tabOptions[2]);
   const [posters, setPosters] = useState();
   const [trending, setTrending] = useState();
-
+  const [isVideoPlay, setIsVideoPlay] = useState(false);
+  const [currentTrailerId, setCurrentTrailerId] = useState('');
   const handleLatestMovieFetch = async () => {
     try {
       const response = await latestMovieFetch();
@@ -44,7 +48,29 @@ export const Dashboard = () => {
     if (selectedTab.label === 'Top trending') {
       handleLatestMovieFetch();
     }
-  });
+  }, [selectedTab, currentTrailerId]);
+
+  const openVideoPlayer = async (id) => {
+    setIsVideoPlay(true);
+    try {
+      const response = await trailerFetch(id);
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch movie data');
+      }
+
+      const data = await response.json();
+
+      if (data.results && data.results.length > 0) {
+        setCurrentTrailerId(data.results[0].key);
+      } else {
+        throw new Error('No results found');
+      }
+    } catch (error) {
+      console.error('Error fetching movie poster:', error.message);
+    }
+  };
+
   const handlePosterFetch = async () => {
     try {
       const response = await posterFetch(input);
@@ -110,17 +136,19 @@ export const Dashboard = () => {
               >
                 Search
               </button>
-              <div className='grid grid-cols-3 gap-y-[20px] gap-x-[20px] w-[90%]'>
+              <div className='grid grid-cols-3 gap-[30px] w-fit'>
                 {posters &&
                   posters.length > 0 &&
                   posters.map(
                     (poster) =>
                       poster.poster_path && (
                         <Card
+                          id={poster.id}
                           imageUrl={`https://image.tmdb.org/t/p/w500${poster.poster_path}`}
                           movieName={poster.title}
                           movieYear={poster.release_date.substring(0, 4)}
                           overview={poster.overview}
+                          onPlay={openVideoPlayer}
                         />
                       )
                   )}
@@ -149,16 +177,28 @@ export const Dashboard = () => {
           )
         }
       />
-
+      <VideoPlayer
+        isVideoPlayerOpen={isVideoPlay}
+        setIsVideoPlayerOpen={setIsVideoPlay}
+        url={`https://www.youtube.com/embed/${currentTrailerId}`}
+      />
       <button
         onClick={() => {
+          console.log('here at signout');
           setModalOpen(true);
         }}
+        className='bg-white'
       >
         Sign Out
       </button>
-      <Modal isOpen={modalOpen} className={'h-[200px] w-[200px] '}>
-        <button onClick={handleLogOut}>Are you sure want to signout ?</button>
+      <Modal
+        isOpen={modalOpen}
+        className={'h-[300px] w-[300px] bg-white flex'}
+        contentLabel='Sign Out Modal'
+      >
+        <button onClick={handleLogOut} className='bg-white'>
+          Are you sure want to signout ?
+        </button>
       </Modal>
     </div>
   );

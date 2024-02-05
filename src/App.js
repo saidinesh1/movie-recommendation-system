@@ -7,10 +7,12 @@ import { ToastContainer, toast } from 'react-toastify';
 import { AuthProvider } from './contexts/AuthContext';
 import { Dashboard } from './pages/dashboard';
 import { LogIn } from './pages/log-in';
+import Modal from 'react-modal';
 import { SignUp } from './pages/sign-up';
 import { Snowfall } from 'react-snowfall';
 
 function App() {
+  Modal.setAppElement('#root');
   return (
     <div className='App'>
       <Snowfall
