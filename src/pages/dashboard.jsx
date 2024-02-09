@@ -1,4 +1,5 @@
 import { Card } from '../components/Card';
+import { Json } from '../constants/result.constant';
 import Modal from 'react-modal';
 import { Tabs } from '../components/Tab';
 import { VideoPlayer } from '../components/MoviePlayer';
@@ -15,6 +16,10 @@ import { useState } from 'react';
 
 Modal.setAppElement('#root');
 export const Dashboard = () => {
+  console.log(
+    Json.twoColumnSearchResultsRenderer.primaryContents.sectionListRenderer
+      .contents[0].itemSectionRenderer.contents[1].videoRenderer.videoId
+  );
   const navigate = useNavigate();
   const [input, setInput] = useState();
   const { currentUser, logOut } = useAuth();
@@ -163,10 +168,12 @@ export const Dashboard = () => {
                     (trendingMovie) =>
                       trendingMovie.poster_path && (
                         <Card
+                          id={trendingMovie.id}
                           imageUrl={`https://image.tmdb.org/t/p/w500${trendingMovie.poster_path}`}
                           movieName={trendingMovie.title}
                           movieYear={trendingMovie.release_date.substring(0, 4)}
                           overview={trendingMovie.overview}
+                          onPlay={openVideoPlayer}
                         />
                       )
                   )}
