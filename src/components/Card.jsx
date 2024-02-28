@@ -24,7 +24,7 @@ export const Card = ({
               src={PlayButton}
               alt='icon'
               class='card__thumb'
-              onClick={() => onPlay(id)}
+              onClick={() => onPlay(id, movieName)}
             />
             <div class='card__header-text'>
               <h3 class='card__title font-Rubik font-bold text-[18px]'>

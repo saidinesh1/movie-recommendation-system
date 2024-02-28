@@ -13,13 +13,10 @@ import { useAuth } from '../contexts/AuthContext';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { ytTrailerFetch } from '../api/ytScrappedVideo';
 
 Modal.setAppElement('#root');
 export const Dashboard = () => {
-  console.log(
-    Json.twoColumnSearchResultsRenderer.primaryContents.sectionListRenderer
-      .contents[0].itemSectionRenderer.contents[1].videoRenderer.videoId
-  );
   const navigate = useNavigate();
   const [input, setInput] = useState();
   const { currentUser, logOut } = useAuth();
@@ -55,10 +52,10 @@ export const Dashboard = () => {
     }
   }, [selectedTab, currentTrailerId]);
 
-  const openVideoPlayer = async (id) => {
+  const openVideoPlayer = async (id, title) => {
     setIsVideoPlay(true);
     try {
-      const response = await trailerFetch(id);
+      const response = await ytTrailerFetch(title);
 
       if (!response.ok) {
         throw new Error('Failed to fetch movie data');
@@ -66,10 +63,14 @@ export const Dashboard = () => {
 
       const data = await response.json();
 
-      if (data.results && data.results.length > 0) {
-        setCurrentTrailerId(data.results[0].key);
+      if (data) {
+        setCurrentTrailerId(
+          data.twoColumnSearchResultsRenderer.primaryContents
+            .sectionListRenderer.contents[0].itemSectionRenderer.contents[1]
+            .videoRenderer.videoId
+        );
       } else {
-        throw new Error('No results found');
+        console.log('No data');
       }
     } catch (error) {
       console.error('Error fetching movie poster:', error.message);
