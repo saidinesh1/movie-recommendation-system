@@ -1,7 +1,13 @@
 import './App.css';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import {
+  Navigate,
+  Outlet,
+  Route,
+  BrowserRouter as Router,
+  Routes,
+} from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 
 import { AuthProvider } from './contexts/AuthContext';
@@ -10,9 +16,16 @@ import { LogIn } from './pages/log-in';
 import Modal from 'react-modal';
 import { SignUp } from './pages/sign-up';
 import { Snowfall } from 'react-snowfall';
+import { useAuth } from './contexts/AuthContext';
 
-function App() {
+const PrivateRoutes = () => {
+  let { currentUser } = useAuth();
+  return currentUser ? <Dashboard /> : <Navigate to='/login' />;
+};
+const App = () => {
   Modal.setAppElement('#root');
+
+  const currentUser = useAuth();
   return (
     <div className='App'>
       <Snowfall
@@ -30,7 +43,7 @@ function App() {
         <AuthProvider>
           <Router>
             <Routes>
-              <Route exact path='/dashboard' Component={Dashboard} />
+              <Route path='/dashboard' Component={Dashboard} exact />
               <Route path='/login' Component={LogIn} />
               <Route path='/signup' Component={SignUp} />
             </Routes>
@@ -39,6 +52,6 @@ function App() {
       </div>
     </div>
   );
-}
+};
 
 export default App;

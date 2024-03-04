@@ -16,3 +16,19 @@ export const tabOptions = [
     icon: TrendingIcon,
   },
 ];
+
+export const navBarOptions = [
+  {
+    title: 'Search',
+  },
+  {
+    title: 'My history',
+  },
+  { title: 'Trending' },
+  {
+    title: 'Logout',
+  },
+  {
+    title: 'About',
+  },
+];
