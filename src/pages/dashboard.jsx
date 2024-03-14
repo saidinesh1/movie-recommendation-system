@@ -116,6 +116,8 @@ export const Dashboard = () => {
         tabOptions={tabOptions}
         selectedTab={selectedTab}
         onSelect={onSelect}
+        onSearch={setInput}
+        onSearchClick={handlePosterFetch}
         profile={{
           pic:
             currentUser && currentUser.photoURL ? currentUser.photoURL : null,
@@ -127,21 +129,6 @@ export const Dashboard = () => {
         children={
           selectedTab.label === 'Search' ? (
             <div className='flex flex-col gap-[20px]'>
-              <input
-                className='border border-2 w-[300px]'
-                type='text'
-                value={input}
-                onChange={(e) => {
-                  setInput(e.target.value);
-                }}
-              />
-              <button
-                onClick={handlePosterFetch}
-                className='text-white'
-                type='submit'
-              >
-                Search
-              </button>
               <div className='grid grid-cols-3 gap-[30px] w-fit'>
                 {posters &&
                   posters.length > 0 &&
@@ -187,7 +174,10 @@ export const Dashboard = () => {
       />
       <VideoPlayer
         isVideoPlayerOpen={isVideoPlay}
-        setIsVideoPlayerOpen={setIsVideoPlay}
+        setIsVideoPlayerOpen={() => {
+          setIsVideoPlay();
+          setCurrentTrailerId(null);
+        }}
         url={`https://www.youtube.com/embed/${currentTrailerId}`}
       />
       <button

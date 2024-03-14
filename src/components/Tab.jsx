@@ -1,4 +1,5 @@
 import Logo from '../assets/trending.png';
+import SearchIcon from '../assets/search.png';
 
 export const Tabs = ({
   tabOptions,
@@ -6,15 +7,36 @@ export const Tabs = ({
   onSelect,
   children,
   profile,
+  onSearch,
+  onSearchClick,
 }) => {
-  console.log(profile, 'profile');
   return (
     <div className='flex flex-col'>
-      <div className='bg-white/10 p-[10px] flex h-min items-center justify-between rounded-lg dark:border-gray-700 h-screen'>
+      <div className='bg-white/10 p-[10px] flex h-min items-center justify-between rounded-lg dark:border-gray-700 '>
         <img src={Logo} alt='icon' className='h-[60px] w-[200px]' />
         <ul className='flex flex-row h-min sticky top-0  rounded-lg p-[10px] text-sm font-medium text-center text-gray-500 dark:text-gray-400'>
+          <li className='inline-flex justify-between items-center justify-center p-4 relative'>
+            <input
+              type='text'
+              className='rounded p-[4px]'
+              placeholder='Search for movies'
+              onChange={(e) => {
+                onSearch(e.currentTarget.value);
+              }}
+            />
+            <img
+              src={SearchIcon}
+              alt='icon'
+              className='h-[25px] w-[25px] absolute left-[160px] cursor-pointer'
+              onClick={() => {
+                onSearchClick();
+                onSelect({ label: 'Search' });
+              }}
+            />
+          </li>
           {tabOptions.map((option) => (
             <li className='me-2 rounded-lg' onClick={() => onSelect(option)}>
+              {option.children && option.children}
               <button
                 key={option.label}
                 aria-current='page'
